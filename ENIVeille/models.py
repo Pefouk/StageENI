@@ -7,7 +7,7 @@ from django.utils import timezone
 class Utilisateur(models.Model):
     motDePasse = models.CharField(max_length=255)
     email = models.EmailField(max_length=255)
-    lienAvatar = models.CharField()
+    lienAvatar = models.CharField(max_length=520)
     pseudo = models.CharField(max_length=50)
     prenom = models.CharField(max_length=50)
     nom = models.CharField(max_length=50)
