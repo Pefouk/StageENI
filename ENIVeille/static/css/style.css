@@ -1,6 +1,30 @@
 html {
 }
 
+.asteriskField {
+    display: none;
+}
+
 .alerte {
     text-align: center;
+}
+
+.connexion {
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+fieldset {
+    border: 1px solid gray;
+    margin: 2px;
+    padding: 2px;
+}
+
+.buttons_connexion {
+    display: flex;
+    justify-content: space-between;
+
 }

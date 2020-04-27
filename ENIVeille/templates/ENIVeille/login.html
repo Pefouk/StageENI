@@ -1,9 +1,24 @@
 {% extends 'ENIVeille/include/main.html' %}
-
+{% load crispy_forms_tags %}
+{% load static %}
 {% block title %}
-    Connexion
+    : Connexion
 {% endblock %}
 
 {% block content %}
-    <h1>TODO</h1>
+    <fieldset class="col-8 offset-2">
+        <legend>Connexion</legend>
+        <form method="post" class="" action="{% url 'connexion' %}">
+            {{ form |crispy }}
+            {% csrf_token %}
+            <div class="buttons_connexion">
+                <input type="submit" class="btn btn-primary" value="Connexion">
+                <a class="btn btn-primary" href="{% url 'connexion' %}" role="button">Mot de passe oublié</a>
+            </div>
+        </form>
+    </fieldset>
+    <div class="connexion">
+        <h2>Pas de compte ?</h2>
+        <a class="btn btn-primary" href="#" role="button">Créer un compte</a>
+    </div>
 {% endblock %}
