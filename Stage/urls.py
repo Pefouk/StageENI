@@ -18,8 +18,8 @@ from django.urls import path
 from ENIVeille import views
 
 urlpatterns = [
-    path(r'admin/', admin.site.urls),
-    path('', views.home),
-    path('connexion', views.connexion),
-    path('deconnexion', views.deconnexion)
+    path(r'admin/', admin.site.urls, name="admin"),
+    path('', views.home, name="home"),
+    path('connexion', views.connexion, name="connexion"),
+    path('deconnexion', views.deconnexion, name="deconnexion")
 ]

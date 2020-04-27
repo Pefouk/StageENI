@@ -13,6 +13,9 @@ def home(request):
 
 
 def connexion(request):
+    if request.user.is_authenticated:
+        messages.info(request, 'Vous êtes déja connecté !')
+        return redirect(home)
     return render(request, 'ENIVeille/login.html', locals())
 
 
