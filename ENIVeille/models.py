@@ -56,19 +56,11 @@ class Publication(models.Model):
 class Profil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     lienAvatar = models.CharField(max_length=520)
-    prenom = models.CharField(max_length=50)
-    nom = models.CharField(max_length=50)
-    mailValidation = models.DateField(default=timezone.now)
     mailOublie = models.DateField(null=True)
-    actif = models.BooleanField(default=False)
-    administrateur = models.BooleanField(default=False)
     moderation = models.ManyToManyField(Technologie, related_name="moderateur")
     abonnement = models.ManyToManyField(Technologie, related_name="abonné")
     sauvegarde = models.ManyToManyField(Publication)
 
     class Meta:
         verbose_name = "utilisateur"
-        ordering = ['nom']
-
-    def __str__(self):
-        return self.nom + " " + self.prenom
+        ordering = ['user']

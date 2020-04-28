@@ -1,0 +1,20 @@
+{% extends 'ENIVeille/include/main.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+    : Inscription
+{% endblock %}
+
+{% block content %}
+    <fieldset class="col-8 offset-2">
+        <legend>Inscription</legend>
+        <form method="post" class="" action="{% url 'inscription' %}">
+            {{ form |crispy }}
+            {% csrf_token %}
+            <div class="buttons_connexion">
+                <input type="submit" class="btn btn-primary" value="Inscription">
+                <a class="btn btn-primary" href="{% url 'connexion' %}" role="button">Annuler</a>
+            </div>
+        </form>
+    </fieldset>
+{% endblock %}
