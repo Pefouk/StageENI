@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'crispy_forms',
 ]
 
+AUTH_USER_MODEL = 'ENIVeille.Utilisateur'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

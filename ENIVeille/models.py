@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 
@@ -53,14 +53,10 @@ class Publication(models.Model):
         return self.titre
 
 
-class Profil(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Utilisateur(AbstractUser):
     lienAvatar = models.CharField(max_length=520)
     mailOublie = models.DateField(null=True)
     moderation = models.ManyToManyField(Technologie, related_name="moderateur")
     abonnement = models.ManyToManyField(Technologie, related_name="abonné")
     sauvegarde = models.ManyToManyField(Publication)
-
-    class Meta:
-        verbose_name = "utilisateur"
-        ordering = ['user']
+    email = models.EmailField(blank=False, unique=True)

@@ -1,10 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
-from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.shortcuts import render
-
+from django.db.utils import IntegrityError
 from .forms import FormInscription, FormConnexion
+from .models import Utilisateur as User
 
 
 # Create your views here.
@@ -46,7 +46,6 @@ def inscription(request):
         form = FormInscription(request.POST)
         if form.is_valid and form.data.get('email') == form.data.get('emailConfirmation') and form.data.get(
                 'motDePasseConfimation') == form.data.get('motDePasse'):
-            messages.info(request, 'Formulaire valide')
             try:
                 user = User.objects.create_user(username=form.data.get('pseudo'), email=form.data.get('email'),
                                                 password=form.data.get('motDePasse'))
@@ -55,11 +54,11 @@ def inscription(request):
                 user.save()
                 login(request, user)
                 return redirect(home)
-            except:
-                messages.info(request, 'non')
+            except IntegrityError:
+                messages.error(request, "Email ou pseudo déja utilisé !")
+                pass
         else:
             messages.info(request, 'Formulaire invalide')
-
     else:
         form = FormInscription()
     return render(request, 'ENIVeille/register.html', {'form': form})
