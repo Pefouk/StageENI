@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
+from django.db.utils import IntegrityError
 from django.shortcuts import redirect
 from django.shortcuts import render
-from django.db.utils import IntegrityError
+
 from .forms import FormInscription, FormConnexion
-from .models import Utilisateur as User
+from .models import Technologie, Utilisateur as User
 
 
 # Create your views here.
@@ -62,3 +63,17 @@ def inscription(request):
     else:
         form = FormInscription()
     return render(request, 'ENIVeille/register.html', {'form': form})
+
+
+def publication(request, idpublication, nomtechno):
+    pass
+
+
+def technologie(request, nomtechno):
+    if Technologie.objects.filter(titre__exact=nomtechno).exists():
+        techno = Technologie.objects.filter(titre__exact=nomtechno).get()
+    else:
+        messages.error(request, "Technologie non existante !")
+        return redirect(home)
+    return render(request, 'ENIVeille/technologie.html',
+                  {'techno': techno, 'publications': list(techno.publication_set.all())})

@@ -1,0 +1,16 @@
+{% extends 'ENIVeille/include/main.html' %}
+
+{% block title %}
+    : {{ techno }}
+{% endblock %}
+{% block content %}
+    <h1 class="nom_technologie">{{ techno.titre }}</h1>
+    <div class="publications">
+        {% for publi in publications %}
+            <div class="publication">
+                <h4 class="publication_titre">{{ publi.titre }}</h4>
+                <p class="publication_description">{{ publi.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

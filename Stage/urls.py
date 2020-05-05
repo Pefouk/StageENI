@@ -14,7 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+
 from ENIVeille import views
 
 urlpatterns = [
@@ -22,5 +23,7 @@ urlpatterns = [
     path('', views.home, name="home"),
     path('connexion', views.connexion, name="connexion"),
     path('deconnexion', views.deconnexion, name="deconnexion"),
-    path('inscription', views.inscription, name="inscription")
+    path('inscription', views.inscription, name="inscription"),
+    path('t/<nomtechno>', views.technologie, name="technologie"),
+    path('t/<nomtechno>/p/<idpublication>', views.publication, name="publication"),
 ]
