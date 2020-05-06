@@ -1,0 +1,17 @@
+{% extends 'ENIVeille/include/main.html' %}
+
+{% block title %}
+    : {{ techno }}
+{% endblock %}
+{% block content %}
+    <h1 class="nom_technologie">{{ techno.titre }}</h1>
+    <div class="offset-1 col-10">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">{{ publication.titre }}</h1>
+                <p class="lead">{{ publication.description }}</p>
+                <p>{{ publication.contenu }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

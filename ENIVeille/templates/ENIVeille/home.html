@@ -1,9 +1,33 @@
 {% extends 'ENIVeille/include/main.html' %}
 
-{% block title%}
-    : Accueil
+{% block title %}
 {% endblock %}
 {% block content %}
-    <h1>Page d'accueil</h1>
-    <p>TODO</p>
+    <h4 class="nom_technologie">Bienvenue {{ request.user }} !</h4>
+    <div class="card offset-1 col-10">
+        {% for publi in publications %}
+            <div class="card">
+                <div class="row no-gutters">
+                    <div class="col-md-2">
+                        <img src="
+                                {% if publi.image %}
+                                    {{ publi.image }}
+                                    {% else %}
+                                    {{ publi.technologie.image }}
+                                {% endif %}
+                                "
+                             alt="Logo-{{ publi.titre }}" style="width: 10vw">
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'publication' publi.technologie.titre publi.id %}"><h5
+                                class="card-title">{{ publi.titre }}</h5></a>
+                        <p class="card-text">{{ publi.description }}</p>
+                        <p class="card-text"><small
+                                class="text-muted">{{ publi.datePublication | date }}</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

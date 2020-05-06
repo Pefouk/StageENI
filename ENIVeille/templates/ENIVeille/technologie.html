@@ -5,12 +5,34 @@
 {% endblock %}
 {% block content %}
     <h1 class="nom_technologie">{{ techno.titre }}</h1>
-    <div class="publications">
-        {% for publi in publications %}
-            <div class="publication">
-                <h4 class="publication_titre">{{ publi.titre }}</h4>
-                <p class="publication_description">{{ publi.description }}</p>
-            </div>
-        {% endfor %}
+    <div class="card offset-1 col-10">
+        {% if publications %}
+            {% for publi in publications %}
+                <div class="card">
+                    <div class="row no-gutters">
+                        <div class="col-md-2">
+                            <img src="
+                                {% if publi.image %}
+                                    {{ publi.image }}
+                                    {% else %}
+                                    {{ publi.technologie.image }}
+                                {% endif %}
+                                "
+                                 alt="Logo-{{ techno.titre }}" style="width: 10vw">
+                        </div>
+                        <div class="card-body">
+                            <a href="{% url 'publication' techno.titre publi.id %}"><h5
+                                    class="card-title">{{ publi.titre }}</h5></a>
+                            <p class="card-text">{{ publi.description }}</p>
+                            <p class="card-text"><small
+                                    class="text-muted">{{ publi.datePublication | date }}</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h1 class="text-center">On ne sait rien sur cette technologie...</h1>
+        {% endif %}
     </div>
 {% endblock %}

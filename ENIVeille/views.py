@@ -5,15 +5,16 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 
 from .forms import FormInscription, FormConnexion
-from .models import Technologie, Utilisateur as User
+from .models import Publication, Technologie, Utilisateur as User
 
 
 # Create your views here.
 def home(request):
-    if request.user.is_authenticated:
-        return render(request, 'ENIVeille/home.html', locals())
-    messages.info(request, 'Merci de vous connecter !')
-    return redirect(connexion)
+    if not request.user.is_authenticated:
+        messages.info(request, 'Merci de vous connecter !')
+        return redirect(connexion)
+    publications = list(Publication.objects.all())
+    return render(request, 'ENIVeille/home.html', {'publications': publications})
 
 
 def connexion(request):
@@ -65,11 +66,18 @@ def inscription(request):
     return render(request, 'ENIVeille/register.html', {'form': form})
 
 
-def publication(request, idpublication, nomtechno):
-    pass
+def listetechnologies(request):
+    if not request.user.is_authenticated:
+        messages.info(request, 'Merci de vous connecter !')
+        return redirect(connexion)
+    technologies = list(Technologie.objects.all())
+    return render(request, 'ENIVeille/technologieliste.html', {'technologies': technologies})
 
 
 def technologie(request, nomtechno):
+    if not request.user.is_authenticated:
+        messages.info(request, 'Merci de vous connecter !')
+        return redirect(connexion)
     if Technologie.objects.filter(titre__exact=nomtechno).exists():
         techno = Technologie.objects.filter(titre__exact=nomtechno).get()
     else:
@@ -77,3 +85,16 @@ def technologie(request, nomtechno):
         return redirect(home)
     return render(request, 'ENIVeille/technologie.html',
                   {'techno': techno, 'publications': list(techno.publication_set.all())})
+
+
+def publication(request, idpublication, nomtechno):
+    if not request.user.is_authenticated:
+        messages.info(request, 'Merci de vous connecter !')
+        return redirect(connexion)
+    if Publication.objects.filter(technologie__titre__exact=nomtechno, id=idpublication).exists():
+        post = Publication.objects.filter(technologie__titre__exact=nomtechno, id=idpublication).get()
+    else:
+        messages.error(request, "Publication inexistante !")
+        return redirect(home)
+    return render(request, 'ENIVeille/publication.html',
+                  {'publication': post})
