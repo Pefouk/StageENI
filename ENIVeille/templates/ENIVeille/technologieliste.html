@@ -4,14 +4,14 @@
     : Liste des technologies
 {% endblock %}
 {% block content %}
-    <h1 class="nom_technologie">Liste des technologies</h1>
+    <h4 class="nom_technologie">Liste des technologies</h4>
     <div class="card offset-1 col-10">
         {% for technologie in technologies %}
-            <div class="card">
+            <div class="card card-custom">
                 <div class="row no-gutters">
                     <div class="col-md-2">
                         <img src="{{ technologie.image }}"
-                             alt="Logo-{{ technologie.titre }}" style="width: 10vw">
+                             alt="Logo-{{ technologie.titre }}" style="width: 5vw">
                     </div>
                     <div class="card-body">
                         <a href="{% url 'technologie' technologie.titre %}"><h5 class="card-title">{{ technologie.titre }}</h5></a>

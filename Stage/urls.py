@@ -26,5 +26,7 @@ urlpatterns = [
     path('inscription', views.inscription, name="inscription"),
     path('t/<nomtechno>', views.technologie, name="technologie"),
     path('t/<nomtechno>/p/<idpublication>', views.publication, name="publication"),
-    path('technologies', views.listetechnologies, name="listetechnologies")
+    path('technologies', views.listetechnologies, name="listetechnologies"),
+    path('u/<pseudo>', views.profil, name="profil"),
+    path('edit/u/<pseudo>', views.editprofil, name="editprofil")
 ]

@@ -34,21 +34,11 @@ fieldset {
     display: grid;
 }
 
-.publications {
-    margin-left: 2vmax;
-    margin-right: 2vmax;
-    padding-left: 2px;
-    padding-right: 2px;
-    border: gray solid 2px;
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
+.card-custom {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
 }
 
-.publication {
-    display: flex;
-
-    border: gray solid 1px;
-    margin-bottom: 5px;
-    margin-top: 5px;
+.navbar {
+    margin-bottom: 5vh;
 }

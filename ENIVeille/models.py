@@ -51,7 +51,7 @@ class Publication(models.Model):
 
     class Meta:
         verbose_name = "publication"
-        ordering = ['datePublication']
+        ordering = ['-datePublication']
 
     def __str__(self):
         return self.titre

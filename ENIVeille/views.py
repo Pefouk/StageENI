@@ -98,3 +98,28 @@ def publication(request, idpublication, nomtechno):
         return redirect(home)
     return render(request, 'ENIVeille/publication.html',
                   {'publication': post})
+
+
+def profil(request, pseudo):
+    if not request.user.is_authenticated:
+        messages.info(request, 'Merci de vous connecter !')
+        return redirect(connexion)
+    if not User.objects.filter(username__exact=pseudo).exists():
+        messages.info(request, 'Profil inexistant !')
+        return redirect(home)
+    user = User.objects.filter(username__exact=pseudo).get()
+    return render(request, 'ENIVeille/profil.html', {'user': user})
+
+
+def editprofil(request, pseudo):
+    if not request.user.is_authenticated:
+        messages.info(request, 'Merci de vous connecter !')
+        return redirect(connexion)
+    if request.user.username != pseudo and not request.user.is_superuser:
+        messages.info(request, 'Vous ne pouvez pas modifier le profil de quelqu\'un d\'autre !')
+        return redirect(home)
+    if not User.objects.filter(username__exact=pseudo).exists():
+        messages.info(request, 'Profil inexistant !')
+        return redirect(home)
+    user = User.objects.filter(username__exact=pseudo).get()
+    return render(request, 'ENIVeille/profil.html', {'user': user})

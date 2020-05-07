@@ -1,0 +1,39 @@
+{% extends 'ENIVeille/include/main.html' %}
+{% load static %}
+{% block title %}
+    : {{ user.username }}
+{% endblock %}
+
+{% block content %}
+    <h4 class="nom_technologie">Profil de {{ user.username }}</h4>
+    <form class="offset-2 col-8">
+        <div class="form-group">
+            <label for="pseudo">Pseudo</label>
+            <input type="text" class="form-control" id="pseudo" aria-describedby="emailHelp"
+                   disabled value="{{ user.username }}">
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" aria-describedby="emailHelp"
+                   disabled value="{{ user.email }}">
+        </div>
+        <div class="form-group">
+            <label for="nom">Nom</label>
+            <input type="text" class="form-control" id="nom" aria-describedby="emailHelp"
+                   disabled value="{{ user.first_name }}">
+        </div>
+        <div class="form-group">
+            <label for="prenom">Prenom</label>
+            <input type="text" class="form-control" id="prenom" aria-describedby="emailHelp"
+                   disabled value="{{ user.last_name }}">
+        </div>
+        <p class="card-text"><small
+                class="text-muted">S'est inscrit le {{ user.date_joined | date }} à {{ user.date_joined | time }}</small>
+        </p>
+        {% if request.user == user or request.user.is_superuser %}
+            <div class="buttons_connexion">
+                <a class="btn btn-primary" href="{% url 'editprofil' user.username %}" role="button">Modifier ce profil</a>
+            </div>
+        {% endif %}
+    </form>
+{% endblock %}
