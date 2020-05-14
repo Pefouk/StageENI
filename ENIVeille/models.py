@@ -58,6 +58,9 @@ class Publication(models.Model):
 
 
 class Utilisateur(AbstractUser):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     lienAvatar = models.CharField(max_length=520)
     mailOublie = models.DateField(null=True, auto_now_add=True)
     moderation = models.ManyToManyField(Technologie, related_name="moderateur")

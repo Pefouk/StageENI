@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
 from django.db.utils import IntegrityError
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from .forms import FormInscription, FormConnexion
+from .forms import FormInscription, FormConnexion, FormEditProfil
 from .models import Publication, Technologie, Utilisateur as User
 
 
@@ -14,7 +15,8 @@ def home(request):
         messages.info(request, 'Merci de vous connecter !')
         return redirect(connexion)
     publications = list(Publication.objects.all())
-    return render(request, 'ENIVeille/home.html', {'publications': publications})
+    sauvegardes = list(User.objects.filter(username__exact=request.user.username).get().sauvegarde.all())
+    return render(request, 'ENIVeille/home.html', {'publications': publications, 'sauvegardes': sauvegardes})
 
 
 def connexion(request):
@@ -32,7 +34,7 @@ def connexion(request):
         form = FormConnexion()
     if request.user.is_authenticated:
         return redirect(home)
-    return render(request, 'ENIVeille/login.html', {'form': form})
+    return render(request, 'ENIVeille/user/login.html', {'form': form})
 
 
 def deconnexion(request):
@@ -63,7 +65,7 @@ def inscription(request):
             messages.info(request, 'Formulaire invalide')
     else:
         form = FormInscription()
-    return render(request, 'ENIVeille/register.html', {'form': form})
+    return render(request, 'ENIVeille/user/register.html', {'form': form})
 
 
 def listetechnologies(request):
@@ -83,8 +85,9 @@ def technologie(request, nomtechno):
     else:
         messages.error(request, "Technologie non existante !")
         return redirect(home)
+    sauvegardes = list(User.objects.filter(username__exact=request.user.username).get().sauvegarde.all())
     return render(request, 'ENIVeille/technologie.html',
-                  {'techno': techno, 'publications': list(techno.publication_set.all())})
+                  {'techno': techno, 'publications': list(techno.publication_set.all()), 'sauvegardes': sauvegardes})
 
 
 def publication(request, idpublication, nomtechno):
@@ -108,7 +111,7 @@ def profil(request, pseudo):
         messages.info(request, 'Profil inexistant !')
         return redirect(home)
     user = User.objects.filter(username__exact=pseudo).get()
-    return render(request, 'ENIVeille/profil.html', {'user': user})
+    return render(request, 'ENIVeille/user/profil.html', {'user': user})
 
 
 def editprofil(request, pseudo):
@@ -122,4 +125,47 @@ def editprofil(request, pseudo):
         messages.info(request, 'Profil inexistant !')
         return redirect(home)
     user = User.objects.filter(username__exact=pseudo).get()
-    return render(request, 'ENIVeille/profil.html', {'user': user})
+    if request.method == 'POST':
+        form = FormEditProfil(request.POST)
+        if form.is_valid and form.data.get('email') == form.data.get('emailConfirmation'):
+            try:
+                user.username = form.data.get('pseudo')
+                user.first_name = form.data.get('nom')
+                user.last_name = form.data.get('prenom')
+                user.email = form.data.get('email')
+                user.save()
+                messages.success(request, 'Mise a jour du profil effectuée !')
+                return redirect(profil, user.username)
+            except:
+                messages.error(request, 'Mise a jour du profil echouée !')
+                return redirect(profil, pseudo)
+        else:
+            messages.error(request, 'Formulaire invalide !')
+    else:
+        form = FormEditProfil(initial={'prenom': user.last_name, 'pseudo': user.username, 'email': user.email,
+                                       'emailConfirmation': user.email, 'nom': user.first_name})
+        form.pseudo = user.username
+        form.prenom = user.last_name
+    return render(request, 'ENIVeille/user/editprofil.html', {'form': form, 'user': user})
+
+
+def sauvegarder(request, pseudo, idpublication):
+    if not request.user.username == pseudo:
+        save = 0
+        error = 1
+    else:
+        publi = Publication.objects.filter(id=idpublication).get()
+        user = User.objects.filter(username__exact=pseudo).get()
+        if user.sauvegarde.filter(id=publi.id).exists():
+            user.sauvegarde.remove(publi)
+            save = 0
+        else:
+            user.sauvegarde.add(publi)
+            save = 1
+        error = 0
+    response = {
+        'save': save,
+        'error': error,
+        'id': idpublication
+    }
+    return JsonResponse(response)

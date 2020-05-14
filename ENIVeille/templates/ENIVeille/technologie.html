@@ -8,28 +8,7 @@
     <div class="card offset-1 col-10">
         {% if publications %}
             {% for publi in publications %}
-                <div class="card card-custom">
-                    <div class="row no-gutters">
-                        <div class="col-md-2">
-                            <img src="
-                                {% if publi.image %}
-                                    {{ publi.image }}
-                                    {% else %}
-                                    {{ publi.technologie.image }}
-                                {% endif %}
-                                "
-                                 alt="Logo-{{ techno.titre }}" style="width: 10vw">
-                        </div>
-                        <div class="card-body">
-                            <a href="{% url 'publication' techno.titre publi.id %}"><h5
-                                    class="card-title">{{ publi.titre }}</h5></a>
-                            <p class="card-text">{{ publi.description }}</p>
-                            <p class="card-text"><small
-                                    class="text-muted">{{ publi.datePublication | date }}</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                {% include 'ENIVeille/publication/publication.html' %}
             {% endfor %}
         {% else %}
             <h3 class="text-center">On ne sait rien sur cette technologie...</h3>

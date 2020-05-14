@@ -28,5 +28,6 @@ urlpatterns = [
     path('t/<nomtechno>/p/<idpublication>', views.publication, name="publication"),
     path('technologies', views.listetechnologies, name="listetechnologies"),
     path('u/<pseudo>', views.profil, name="profil"),
-    path('edit/u/<pseudo>', views.editprofil, name="editprofil")
+    path('edit/u/<pseudo>', views.editprofil, name="editprofil"),
+    path('sauvegarder/<pseudo>/<idpublication>', views.sauvegarder, name="sauvegarder"),
 ]
