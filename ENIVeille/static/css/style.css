@@ -42,3 +42,8 @@ fieldset {
 .navbar {
     margin-bottom: 5vh;
 }
+
+.card-title-custom {
+    display: flex;
+    justify-content: space-between;
+}

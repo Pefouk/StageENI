@@ -9,19 +9,22 @@
                  alt="Logo-{{ publi.technologie.titre }}" style="width: 10vw">
         </div>
         <div class="card-body">
-            <a href="{% url 'publication' publi.technologie.titre publi.id %}"><h5
-                    class="card-title">{{ publi.titre }}</h5></a>
+            <div class="card-title-custom">
+                <a href="{% url 'publication' publi.technologie.titre publi.id %}"><h5
+                        class="card-title">{{ publi.titre }}</h5></a>
+                <i id="{{ publi.id }}-p"
+                   onclick="sauvegarder('{% url 'sauvegarder' request.user.username publi.id %}', '{{ request.user.username }}')"
+                        {% if publi in sauvegardes %}
+                   class="fas fa-star fa-3x"
+                        {% else %}
+                   class="far fa-star fa-3x"
+                        {% endif %}></i>
+            </div>
+            <a href="{% url 'technologie' publi.technologie.titre %}">{{ publi.technologie.titre }}</a>
             <p class="card-text">{{ publi.description }}</p>
             <p class="card-text"><small
                     class="text-muted">{{ publi.datePublication | date }}</small>
             </p>
-            <i id="{{ publi.id }}-p"
-               onclick="sauvegarder('{% url 'sauvegarder' request.user.username publi.id %}', '{{ request.user.username }}')"
-                    {% if publi in sauvegardes %}
-               class="fas fa-star fa-3x"
-                    {% else %}
-               class="far fa-star fa-3x"
-                    {% endif %}></i>
         </div>
     </div>
 </div>

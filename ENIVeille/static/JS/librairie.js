@@ -20,6 +20,35 @@ function sauvegarder(lien, username) {
     });
 }
 
+function desactiverOnglets() {
+    let docs = document.getElementsByClassName('onglet');
+    for (let doc of docs) {
+        if (doc.classList.contains('active'))
+        doc.classList.remove('active');
+    }
+}
+
+function chargerSauvegarde() {
+    let doc = document.getElementById('sauvegarde');
+    if (!doc.classList.contains('active'))
+        desactiverOnglets();
+        doc.classList.add('active')
+}
+
+function chargerTout() {
+    let doc = document.getElementById('tout');
+    if (!doc.classList.contains('active'))
+        desactiverOnglets();
+        doc.classList.add('active')
+}
+
+function chargerAbonnements() {
+    let doc = document.getElementById('abonnés');
+    if (!doc.classList.contains('active'))
+        desactiverOnglets();
+        doc.classList.add('active')
+}
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

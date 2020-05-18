@@ -3,10 +3,20 @@
 {% block title %}
 {% endblock %}
 {% block content %}
-    <h4 class="nom_technologie">Bienvenue {{ request.user }} !</h4>
+    <ul class="nav nav-tabs justify-content-around">
+        <li class="nav-item">
+            <a id="tout" class="nav-link active onglet" href="javascript:void(0);" onclick="chargerTout()">Tout</a>
+        </li>
+        <li class="nav-item">
+            <a id="sauvegarde" class="nav-link onglet" href="javascript:void(0);" onclick="chargerSauvegarde()">Sauvegardé</a>
+        </li>
+        <li class="nav-item">
+            <a id="abonnés" class="nav-link onglet" href="javascript:void(0);" onclick="chargerAbonnements()">Abonnés</a>
+        </li>
+    </ul>
     <div class="card offset-1 col-10">
         {% for publi in publications %}
-           {% include 'ENIVeille/publication/publication.html' %}
+            {% include 'ENIVeille/publication/publication.html' %}
         {% endfor %}
     </div>
 {% endblock %}
