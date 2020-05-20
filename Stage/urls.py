@@ -1,33 +1,22 @@
-"""Stage URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
 
-from ENIVeille import views
+from ENIVeille.views import publications, ajax, user
 
 urlpatterns = [
     path(r'admin/', admin.site.urls, name="admin"),
-    path('', views.home, name="home"),
-    path('connexion', views.connexion, name="connexion"),
-    path('deconnexion', views.deconnexion, name="deconnexion"),
-    path('inscription', views.inscription, name="inscription"),
-    path('t/<nomtechno>', views.technologie, name="technologie"),
-    path('t/<nomtechno>/p/<idpublication>', views.publication, name="publication"),
-    path('technologies', views.listetechnologies, name="listetechnologies"),
-    path('u/<pseudo>', views.profil, name="profil"),
-    path('edit/u/<pseudo>', views.editprofil, name="editprofil"),
-    path('sauvegarder/<pseudo>/<idpublication>', views.sauvegarder, name="sauvegarder"),
+    path('', publications.home, name="home"),
+    path('connexion', user.connexion, name="connexion"),
+    path('deconnexion', user.deconnexion, name="deconnexion"),
+    path('inscription', user.inscription, name="inscription"),
+    path('t/<nomtechno>', publications.technologie, name="technologie"),
+    path('t/<nomtechno>/p/<idpublication>', publications.publication, name="publication"),
+    path('technologies', publications.listetechnologies, name="listetechnologies"),
+    path('u/<pseudo>', user.profil, name="profil"),
+    path('edit/u/<pseudo>', user.editprofil, name="editprofil"),
+    path('sauvegarder/<pseudo>/<idpublication>', ajax.sauvegarder, name="sauvegarder"),
+    path('contenuSauvegarde', ajax.contenusauvegarde, name="contenuSauvegarde"),
+    path('contenuTout', ajax.tout, name="contenuTout"),
+    path('contenuAbonne', ajax.contenuabonne, name="contenuAbonne"),
+    path('t/<technologie>/abonnement', ajax.sabonner, name="sabonne")
 ]

@@ -47,3 +47,7 @@ fieldset {
     display: flex;
     justify-content: space-between;
 }
+
+.nav-tabs {
+    padding-left: 8vw;
+}

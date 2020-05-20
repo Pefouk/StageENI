@@ -1,15 +1,11 @@
-function sauvegarder(lien, username) {
+function sauvegarder(lien) {
     $.ajax({
         url: lien,
-        data: {
-            'username': username,
-        },
         type: "POST",
         dataType: 'json',
         success: function (data) {
             if (data.error !== 1) {
                 let doc = document.getElementById(data.id + '-p');
-                console.log(doc);
                 if (data.save !== 1) {
                     doc.className = "far fa-star fa-3x"
                 } else {
@@ -20,33 +16,47 @@ function sauvegarder(lien, username) {
     });
 }
 
+function sabonner(lien) {
+    $.ajax({
+        url: lien,
+        type: "POST",
+        dataType: 'json',
+        success: function (data) {
+            let doc = document.getElementById('abonnement');
+            console.log(data);
+            if (data.abonnement === 1) {
+                doc.innerText = "Se désabonner"
+            } else {
+                doc.innerText = "S'abonner"
+            }
+        }
+    })
+}
+
 function desactiverOnglets() {
     let docs = document.getElementsByClassName('onglet');
     for (let doc of docs) {
         if (doc.classList.contains('active'))
-        doc.classList.remove('active');
+            doc.classList.remove('active');
     }
 }
 
-function chargerSauvegarde() {
-    let doc = document.getElementById('sauvegarde');
-    if (!doc.classList.contains('active'))
+function chargerOnglet(lien, type) {
+    let doc = document.getElementById(type);
+    if (!doc.classList.contains('active')) {
         desactiverOnglets();
-        doc.classList.add('active')
-}
-
-function chargerTout() {
-    let doc = document.getElementById('tout');
-    if (!doc.classList.contains('active'))
-        desactiverOnglets();
-        doc.classList.add('active')
-}
-
-function chargerAbonnements() {
-    let doc = document.getElementById('abonnés');
-    if (!doc.classList.contains('active'))
-        desactiverOnglets();
-        doc.classList.add('active')
+        doc.classList.add('active');
+        doc = document.getElementById('publications');
+        doc.remove();
+        $.ajax({
+            url: lien,
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
+                document.getElementById('onglets').insertAdjacentHTML("afterend", data);
+            }
+        })
+    }
 }
 
 function getCookie(name) {

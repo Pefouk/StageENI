@@ -1,22 +1,20 @@
 from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
 from django.db.utils import IntegrityError
-from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from .forms import FormInscription, FormConnexion, FormEditProfil
-from .models import Publication, Technologie, Utilisateur as User
+from ENIVeille.forms import FormInscription, FormConnexion, FormEditProfil
+from ENIVeille.models import Utilisateur as User, Publication
 
 
-# Create your views here.
 def home(request):
     if not request.user.is_authenticated:
         messages.info(request, 'Merci de vous connecter !')
         return redirect(connexion)
     publications = list(Publication.objects.all())
-    sauvegardes = list(User.objects.filter(username__exact=request.user.username).get().sauvegarde.all())
-    return render(request, 'ENIVeille/home.html', {'publications': publications, 'sauvegardes': sauvegardes})
+    return render(request, 'ENIVeille/home.html',
+                  {'publications': publications, 'sauvegardes': sauvegarde(request.user.username)})
 
 
 def connexion(request):
@@ -68,41 +66,6 @@ def inscription(request):
     return render(request, 'ENIVeille/user/register.html', {'form': form})
 
 
-def listetechnologies(request):
-    if not request.user.is_authenticated:
-        messages.info(request, 'Merci de vous connecter !')
-        return redirect(connexion)
-    technologies = list(Technologie.objects.all())
-    return render(request, 'ENIVeille/technologieliste.html', {'technologies': technologies})
-
-
-def technologie(request, nomtechno):
-    if not request.user.is_authenticated:
-        messages.info(request, 'Merci de vous connecter !')
-        return redirect(connexion)
-    if Technologie.objects.filter(titre__exact=nomtechno).exists():
-        techno = Technologie.objects.filter(titre__exact=nomtechno).get()
-    else:
-        messages.error(request, "Technologie non existante !")
-        return redirect(home)
-    sauvegardes = list(User.objects.filter(username__exact=request.user.username).get().sauvegarde.all())
-    return render(request, 'ENIVeille/technologie.html',
-                  {'techno': techno, 'publications': list(techno.publication_set.all()), 'sauvegardes': sauvegardes})
-
-
-def publication(request, idpublication, nomtechno):
-    if not request.user.is_authenticated:
-        messages.info(request, 'Merci de vous connecter !')
-        return redirect(connexion)
-    if Publication.objects.filter(technologie__titre__exact=nomtechno, id=idpublication).exists():
-        post = Publication.objects.filter(technologie__titre__exact=nomtechno, id=idpublication).get()
-    else:
-        messages.error(request, "Publication inexistante !")
-        return redirect(home)
-    return render(request, 'ENIVeille/publication.html',
-                  {'publication': post})
-
-
 def profil(request, pseudo):
     if not request.user.is_authenticated:
         messages.info(request, 'Merci de vous connecter !')
@@ -149,23 +112,6 @@ def editprofil(request, pseudo):
     return render(request, 'ENIVeille/user/editprofil.html', {'form': form, 'user': user})
 
 
-def sauvegarder(request, pseudo, idpublication):
-    if not request.user.username == pseudo:
-        save = 0
-        error = 1
-    else:
-        publi = Publication.objects.filter(id=idpublication).get()
-        user = User.objects.filter(username__exact=pseudo).get()
-        if user.sauvegarde.filter(id=publi.id).exists():
-            user.sauvegarde.remove(publi)
-            save = 0
-        else:
-            user.sauvegarde.add(publi)
-            save = 1
-        error = 0
-    response = {
-        'save': save,
-        'error': error,
-        'id': idpublication
-    }
-    return JsonResponse(response)
+def sauvegarde(username):
+    sauvegardes = list(User.objects.filter(username__exact=username).get().sauvegarde.all())
+    return sauvegardes

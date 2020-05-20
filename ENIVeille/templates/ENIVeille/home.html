@@ -3,20 +3,19 @@
 {% block title %}
 {% endblock %}
 {% block content %}
-    <ul class="nav nav-tabs justify-content-around">
+    <ul class="nav nav-tabs" id="onglets">
         <li class="nav-item">
-            <a id="tout" class="nav-link active onglet" href="javascript:void(0);" onclick="chargerTout()">Tout</a>
+            <a id="tout" class="nav-link active onglet" href="javascript:void(0);"
+               onclick="chargerOnglet('{% url 'contenuTout' %}', 'tout')">Tout</a>
         </li>
         <li class="nav-item">
-            <a id="sauvegarde" class="nav-link onglet" href="javascript:void(0);" onclick="chargerSauvegarde()">Sauvegardé</a>
+            <a id="sauvegarde" class="nav-link onglet" href="javascript:void(0);"
+               onclick="chargerOnglet('{% url 'contenuSauvegarde' %}', 'sauvegarde')">Sauvegardé</a>
         </li>
         <li class="nav-item">
-            <a id="abonnés" class="nav-link onglet" href="javascript:void(0);" onclick="chargerAbonnements()">Abonnés</a>
+            <a id="abonnés" class="nav-link onglet" href="javascript:void(0);"
+               onclick="chargerOnglet('{% url 'contenuAbonne' %}', 'abonnés')">Abonnés</a>
         </li>
     </ul>
-    <div class="card offset-1 col-10">
-        {% for publi in publications %}
-            {% include 'ENIVeille/publication/publication.html' %}
-        {% endfor %}
-    </div>
+    {% include 'ENIVeille/publication/publication.html' %}
 {% endblock %}
