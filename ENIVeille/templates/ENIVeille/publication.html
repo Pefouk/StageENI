@@ -5,6 +5,13 @@
 {% endblock %}
 {% block content %}
     <h4 class="nom_technologie">{{ techno.titre }}</h4>
+    <i id="{{ publi.id }}-p"
+       onclick="sauvegarder('{% url 'sauvegarder' request.user.username publi.id %}')"
+            {% if publi in sauvegardes %}
+       class="fas fa-star fa-3x"
+            {% else %}
+       class="far fa-star fa-3x"
+            {% endif %}></i>
     <div class="offset-1 col-10">
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
@@ -23,8 +30,6 @@
                 </div>
                 <p class="lead">{{ publication.description }}</p>
                 <p>{{ publication.contenu }}</p>
-                <br>
-                <br>
                 <a href="{{ publication.source }}">Source : {{ publication.source }}</a>
                 <p class="text-muted text-right">{{ publication.datePublication | date }}</p>
             </div>
