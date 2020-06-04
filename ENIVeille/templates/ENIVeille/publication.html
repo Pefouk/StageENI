@@ -6,7 +6,7 @@
 {% block content %}
     <h4 class="nom_technologie">{{ techno.titre }}</h4>
     <i id="{{ publi.id }}-p"
-       onclick="sauvegarder('{% url 'sauvegarder' request.user.username publi.id %}')"
+       onclick="sauvegarder('{% url 'sauvegarder' request.user.username publication.id %}')"
             {% if publi in sauvegardes %}
        class="fas fa-star fa-3x"
             {% else %}
