@@ -66,3 +66,8 @@ fieldset {
     display: flex;
     justify-content: space-evenly;
 }
+
+.titre {
+    display: flex;
+    justify-content: space-between;
+}

@@ -8,27 +8,27 @@
     <div class="offset-1 col-10">
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-                <div>
-                    <h1 style="float: left;">
-                        <img src="
+                    <div class="titre">
+                        <h1 style="float: left;">
+                            <img src="
                                 {% if publication.image %}
                                     {{ publication.image }}
                                     {% else %}
                                     {{ publication.technologie.image }}
                                 {% endif %}
                                 "
-                             alt="Image-{{ publication.titre }}"
-                             style="width: 7vw">
-                        <h1 class="display-4">{{ publication.titre }}</h1>
-                    </h1>
+                                 alt="Image-{{ publication.titre }}"
+                                 style="width: 7vw">
+                            <h1 class="display-4">{{ publication.titre }}</h1>
+                        </h1>
+                    <i id="{{ publication.id }}-p"
+                       onclick="sauvegarder('{% url 'sauvegarder' request.user.username publication.id %}')"
+                            {% if publi in sauvegardes %}
+                       class="fas fa-star fa-3x"
+                            {% else %}
+                       class="far fa-star fa-3x"
+                            {% endif %}></i>
                 </div>
-            <i id="{{ publication.id }}-p"
-                                                                         onclick="sauvegarder('{% url 'sauvegarder' request.user.username publication.id %}')"
-                                {% if publi in sauvegardes %}
-                                                                         class="fas fa-star fa-3x"
-                                {% else %}
-                                                                         class="far fa-star fa-3x"
-                                {% endif %}></i>
                 <p class="lead">{{ publication.description }}</p>
                 <p>{{ publication.contenu }}</p>
                 <a href="{{ publication.source }}">Source : {{ publication.source }}</a>
