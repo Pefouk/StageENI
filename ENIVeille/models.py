@@ -4,10 +4,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-# Create your models here.
-
 class Technologie(models.Model):
-    titre = models.CharField(max_length=255)
+    titre = models.CharField(max_length=255, unique=True)
     description = models.CharField(max_length=5000)
     wiki = models.URLField(max_length=50)
     image = models.URLField(max_length=500, default="https://i.imgur.com/cy81Ptj.jpg")
@@ -47,7 +45,16 @@ class Publication(models.Model):
     categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE)
     technologie = models.ForeignKey(Technologie, on_delete=models.CASCADE)
     image = models.URLField(null=True)
-    contenu = models.TextField(max_length=12000, default="Locati fecisse de quis amici amicitia excusatio rem ut excusatio oporteat in ut longe prospicere turpes de spatio prospicere Fanni curriculoque se loco longe aliquantum consuetudo consuetudo in eo sanciatur publicam contra nec Etenim ut causa rei quis est casus causa Deflexit amici in loco rogati contra nos turpes consuetudo Scaevola Etenim neque excusatio amici nec prospicere faciamus enim minime cum fateatur in spatio in longe Turpis cum cum Scaevola loco cum est et igitur nos amici maiorum Etenim rei sanciatur futuros nos se curriculoque futuros res aliquantum minime res nec peccatis aliquantum peccatis eo locati neque prospicere de in.")
+    contenu = models.TextField(max_length=12000,
+                               default="Lorem ipsum fecisse de quis amici amicitia excusatio rem ut excusatio "
+                                       "oporteat in ut longe prospicere turpes de spatio prospicere Fanni "
+                                       "curriculoque se loco longe aliquantum consuetudo consuetudo in eo sanciatur "
+                                       "publicam contra nec Etenim ut causa rei quis est casus causa Deflexit amici "
+                                       "in loco rogati contra nos turpes consuetudo Scaevola Etenim neque excusatio "
+                                       "amici nec prospicere faciamus enim minime cum fateatur in spatio in longe "
+                                       "Turpis cum cum Scaevola loco cum est et igitur nos amici maiorum Etenim rei "
+                                       "sanciatur futuros nos se curriculoque futuros res aliquantum minime res nec "
+                                       "peccatis aliquantum peccatis eo locati neque prospicere de in.")
 
     class Meta:
         verbose_name = "publication"

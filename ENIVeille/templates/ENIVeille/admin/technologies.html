@@ -1,0 +1,48 @@
+{% extends 'ENIVeille/include/main.html' %}
+
+{% block title %}
+    : Administration technologies
+{% endblock %}
+{% block content %}
+    <h1 class="centrer">Adminsitration</h1>
+    <div class="offset-1 col-10">
+    <a class="btn-sm btn-secondary" href="{% url 'admin_creer_technologie' %}">Nouvelle technologie</a>
+        <br>
+        <br>
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Abonnés</th>
+                <th scope="col">Actualités</th>
+                <th scope="col">Derniere actualité</th>
+                <th scope="col">Moderateurs</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if technologies %}
+                {% for technologie in technologies %}
+                    <tr>
+                        <td><a href="{% url 'technologie' technologie.titre %}">{{ technologie.titre }}</a></td>
+                        <td>{{ technologie.abonné.count }}</td>
+                        <td>{{ technologie.publication_set.count }}</td>
+                        <td>{% if technologie.publication_set.first %}
+                            {{ technologie.publication_set.first.date }}
+                            {% else %}
+                            Pas d'actualité !
+                            {% endif %}
+                        </td>
+                        <td>{{ technologie.moderateur.count }}</td>
+                        <td>
+                            <a class="btn-sm btn-secondary" href="{% url 'admin_supprimer_technologie' technologie.titre %}">Supprimer</a>
+                            <a class="btn-sm btn-secondary" href="{% url 'modifier_technologie' technologie.titre %}">Modifier</a>
+                            <a class="btn-sm btn-secondary" href="{% url 'admin_liste_categories' technologie.titre %}">Catégories</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

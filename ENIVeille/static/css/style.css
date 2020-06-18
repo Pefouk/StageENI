@@ -29,9 +29,11 @@ fieldset {
     margin-top: 10vmin;
 }
 
-.nom_technologie {
+.centrer {
+    text-align: center;
     justify-content: center;
     display: grid;
+    padding-bottom: 5vh;
 }
 
 .card-custom {
@@ -50,4 +52,17 @@ fieldset {
 
 .nav-tabs {
     padding-left: 8vw;
+}
+
+.table td {
+   text-align: center;
+}
+
+.table th {
+    text-align: center;
+}
+
+.btn-centrer {
+    display: flex;
+    justify-content: space-evenly;
 }

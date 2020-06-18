@@ -1,0 +1,33 @@
+{% extends 'ENIVeille/include/main.html' %}
+
+{% block title %}
+    : Administration categories de {{ technologie }}
+{% endblock %}
+{% block content %}
+    <h1 class="centrer">Adminsitration des catégories de {{ technologie }}</h1>
+    <div class="offset-1 col-10">
+    <a class="btn-sm btn-secondary" href="{% url 'admin_creer_categorie' technologie %}">Nouvelle catégorie</a>
+        <br>
+        <br>
+        <table class="table table-striped table-hover justif">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if categories %}
+                {% for categorie in categories %}
+                    <tr>
+                        <td>{{ categorie.nom }}</td>
+                        <td>
+                            <a class="btn-sm btn-secondary" href="{% url 'admin_supprimer_categorie' categorie.id %}">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'ENIVeille/include/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    : Supprimer {{ categorie.nom }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="centrer">Suppression de {{ categorie.nom }}</h1>
+    <h2 class="centrer">Attention ! Toute suppression de categorie est instantanée et definitive !<br>
+    Toutes les actualités de celle ci seront également supprimées.</h2>
+    <form class="offset-2 col-8" action="{% url 'admin_supprimer_categorie' categorie.id %}" method="post">
+        {{ form|crispy }}
+        {% csrf_token %}
+        <input class="btn btn-danger" type="submit" value="Valider">
+    </form>
+{% endblock %}

@@ -4,7 +4,7 @@ from django.db.utils import IntegrityError
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from ENIVeille.forms import FormInscription, FormConnexion, FormEditProfil
+from ENIVeille.forms import FormInscription, FormConnexion, FormEditProfil, FormSuppression
 from ENIVeille.models import Utilisateur as User, Publication
 
 
@@ -15,6 +15,26 @@ def home(request):
     publications = list(Publication.objects.all())
     return render(request, 'ENIVeille/home.html',
                   {'publications': publications, 'sauvegardes': sauvegarde(request.user.username)})
+
+
+def supprimer(request, pseudo):
+    if not request.user.is_superuser or request.user.username != pseudo:
+        messages.info(request, 'Vous n\'avez pas accès a cette page !')
+        return redirect(home)
+    else:
+        if request.method == 'POST':
+            form = FormSuppression(request.POST)
+            if form.is_valid() and form.data.get('pseudo') == pseudo:
+                User.objects.filter(username=pseudo).delete()
+                messages.success(request, 'Compte supprimé avec succés !')
+                if pseudo == request.user.username:
+                    logout(request)
+                return redirect(home)
+            else:
+                messages.warning(request, 'Pseudo incorrect !')
+        else:
+            form = FormSuppression()
+        return render(request, 'ENIVeille/user/suppression.html', {'form': form, 'pseudo': pseudo})
 
 
 def connexion(request):

@@ -5,6 +5,30 @@ from ENIVeille.models import Publication, Utilisateur as User, Technologie
 from ENIVeille.views.publications import sauvegarde
 
 
+def admin(request, pseudo):
+    if not request.user.is_superuser:
+        error = 1
+        administrateur = 0
+    else:
+        error = 0
+        utilisateur = User.objects.filter(username__exact=pseudo).get()
+        if not utilisateur.is_superuser:
+            utilisateur.is_staff = True
+            utilisateur.is_superuser = True
+            administrateur = 1
+        else:
+            utilisateur.is_staff = False
+            utilisateur.is_superuser = False
+            administrateur = 0
+        utilisateur.save()
+    response = {
+        'admin': administrateur,
+        'error': error
+    }
+    print(response)
+    return JsonResponse(response)
+
+
 def sauvegarder(request, pseudo, idpublication):
     if not request.user.username == pseudo:
         save = 0

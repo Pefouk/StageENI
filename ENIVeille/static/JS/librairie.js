@@ -16,6 +16,27 @@ function sauvegarder(lien) {
     });
 }
 
+function administrateurprofil(lien, pseudo) {
+    $.ajax({
+        url: lien,
+        type: "POST",
+        dataType: 'json',
+        success: function (data) {
+            if (data.error !== 1) {
+                let doc = document.getElementById(pseudo + '-admin')
+                let check = document.getElementById(pseudo + '-check')
+
+                console.log(check);
+                if (data.admin === 1) {
+                    doc.textContent = 'Retirer les droits administrateurs'
+                } else {
+                    doc.textContent = 'Donner les droits administrateurs'
+                }
+            }
+        }
+    });
+}
+
 function sabonner(lien) {
     $.ajax({
         url: lien,

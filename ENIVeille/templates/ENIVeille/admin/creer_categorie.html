@@ -1,0 +1,15 @@
+{% extends 'ENIVeille/include/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    : Nouvelle catégorie
+{% endblock %}
+
+{% block content %}
+    <h1 class="centrer">Création de la catégorie</h1>
+    <form class="offset-2 col-8" action="{% url 'admin_creer_categorie' technologie %}" method="post">
+        {{ form|crispy }}
+        {% csrf_token %}
+        <input class="btn btn-primary btn-block" type="submit" value="Valider">
+    </form>
+{% endblock %}

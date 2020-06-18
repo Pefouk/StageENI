@@ -1,0 +1,55 @@
+{% extends 'ENIVeille/include/main.html' %}
+
+{% block title %}
+    Administration utilisateurs
+{% endblock %}
+{% block content %}
+    <h1 class="centrer">Adminsitration</h1>
+    <div class="offset-1 col-10">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Email</th>
+                <th scope="col">Modérateur</th>
+                <th scope="col">Administrateur</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if utilisateurs %}
+                {% for utilisateur in utilisateurs %}
+                    <tr>
+                        <th scope="row">{{ utilisateur.id }}</th>
+                        <td><a href="{% url 'profil' utilisateur.username %}">{{ utilisateur.username }}</a></td>
+                        <td>{{ utilisateur.last_name }}</td>
+                        <td>{{ utilisateur.first_name }}</td>
+                        <td>{{ utilisateur.email }}</td>
+                        <td>{{ utilisateur.moderation.count }}</td>
+                        <td> {% if utilisateur.is_superuser %}
+                            <input type="checkbox" checked disabled>
+                        {% else %}
+                            <input type="checkbox" disabled>
+                        {% endif %}
+                        </td>
+                        <td class="btn-centrer"><a class="btn-sm btn-secondary" href="{% url 'editprofil' utilisateur.username %}">Modifier</a>
+                            <a class="btn-sm btn-secondary" id="{{ utilisateur.username }}-admin" href="javascript:void(0);"
+                               onclick="administrateurprofil('{% url 'admin_utilisateurs_admin' utilisateur.username %}', '{{ utilisateur.username }}')">
+                                {% if utilisateur.is_superuser %}
+                                    Retirer les droits administrateurs
+                                {% else %}
+                                    Donner les droits administrateurs
+                                {% endif %}
+                            </a>
+                            <a class="btn-sm btn-secondary" href="{% url 'supprimerprofil' utilisateur.username %}">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

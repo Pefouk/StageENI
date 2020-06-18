@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'Stage.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'eniveille',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
+        'NAME': 'ENIVeille',
+        'USER': 'remotejeremy',
+        'PASSWORD': '161219Ja',
+        'HOST': '192.168.1.13',
         'PORT': '3306'
     }
 }

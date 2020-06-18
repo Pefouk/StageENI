@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <h4 class="nom_technologie">Profil de {{ user.username }}</h4>
+    <h4 class="centrer">Profil de {{ user.username }}</h4>
     <form class="offset-2 col-8" action="{% url 'editprofil' user.username %}" method="post">
         {{ form|crispy }}
         {% csrf_token %}
@@ -14,5 +14,6 @@
                 class="text-muted">S'est inscrit le {{ user.date_joined | date }} à {{ user.date_joined | time }}</small>
         </p>
         <input class="btn btn-primary" type="submit" value="Valider">
+        <a class="btn btn-danger" href="{% url 'supprimerprofil' user.username %}">Supprimer le profil</a>
     </form>
 {% endblock %}

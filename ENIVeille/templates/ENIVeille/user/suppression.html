@@ -1,0 +1,16 @@
+{% extends 'ENIVeille/include/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    : {{ pseudo }}
+{% endblock %}
+
+{% block content %}
+    <h1 class="centrer">Suppression de {{ pseudo }}</h1>
+    <h2 class="centrer">Attention ! Toute suppression de profil est instantanée et definitive !</h2>
+    <form class="offset-2 col-8" action="{% url 'supprimerprofil' pseudo %}" method="post">
+        {{ form|crispy }}
+        {% csrf_token %}
+        <input class="btn btn-danger" type="submit" value="Valider">
+    </form>
+{% endblock %}

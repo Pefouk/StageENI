@@ -1,0 +1,15 @@
+{% extends 'ENIVeille/include/main.html' %}
+
+{% block title %}
+    Administration
+{% endblock %}
+{% block content %}
+    <h1 class="centrer">Adminsitration</h1>
+    <div class="offset-2 col-8">
+        <h2 class="centrer">Que souhaitez vous modifier ?</h2>
+        <div class="btn-centrer">
+            <a href="{% url 'admin_utilisateurs' %}" type="button" class="btn-lg btn-secondary">Utilisateurs</a>
+            <a href="{% url 'admin_technologies' %}" type="button" class="btn-lg btn-secondary">Technologies</a>
+        </div>
+    </div>
+{% endblock %}
